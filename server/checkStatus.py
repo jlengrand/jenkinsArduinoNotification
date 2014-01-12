@@ -8,7 +8,8 @@ from jenkinsapi import build
 
 port = "/dev/ttyACM0"
 baudrate = 9600
-url = 'http://localhost:8080'
+#url = 'http://localhost:8080'
+url = 'http://192.168.1.20:8080'
 project = 'test_1'
 
 FAIL = "f"
