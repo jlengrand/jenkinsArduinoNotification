@@ -5,35 +5,53 @@
  
 // Pin 13 has an LED connected on most Arduino boards.
 // give it a name:
-int ledGreen = 12;
+int ledGreen1 = 12;
 int ledBuild = 13;
-int ledRed = 11;
+int ledRed1 = 11;
+int ledGreen2 = 10;
+int ledRed2 = 9;
+//int project = 0;
+
 
 boolean build = false;
 
 // the setup routine runs once when you press reset:
 void setup() {                
   // initialize the digital pin as an output.
-  pinMode(ledGreen, OUTPUT);     
+  pinMode(ledGreen1, OUTPUT);     
   pinMode(ledBuild, OUTPUT);   
-  pinMode(ledRed, OUTPUT);   
+  pinMode(ledRed1, OUTPUT);
+  pinMode(ledGreen2, OUTPUT);  
+  pinMode(ledRed2, OUTPUT);
   Serial.begin(9600);
   Serial.write("READY");
 }
 
 void reset() {
-  digitalWrite(ledGreen, LOW);
+  digitalWrite(ledGreen1, LOW);
   digitalWrite(ledBuild, LOW);
-  digitalWrite(ledRed, LOW); 
+  digitalWrite(ledRed1, LOW); 
+  digitalWrite(ledGreen2, LOW);
+  digitalWrite(ledRed2, LOW);
 }
   
-void setFail() {
-  digitalWrite(ledRed, HIGH);   
+void setFail(int project) {
+  if (project == 1){
+    digitalWrite(ledRed1, HIGH);
+  } 
+  else {
+    digitalWrite(ledRed2, HIGH);  
+  }
   build = false;
 }
 
-void setSuccess() {
-  digitalWrite(ledGreen, HIGH);   
+void setSuccess(int project) {
+  if (project == 1){
+    digitalWrite(ledGreen1, HIGH);
+  }
+  else {
+    digitalWrite(ledGreen2, HIGH);   
+  }
   build = false;
 }
 
@@ -50,15 +68,15 @@ void blinkBuild(){
   
 }
 
-void switchLight(char incomingChar) {
+void switchLight(char incomingChar, int project) {
   reset();
   
   if (incomingChar == 's') {
-    setSuccess();
+    setSuccess(project);
   } else if (incomingChar == 'b') {
     setBuild();
   } else if (incomingChar == 'f') {
-    setFail();
+    setFail(project);
   } else if (incomingChar == 'o') {
     return;
   }
@@ -74,6 +92,6 @@ void loop() {
   
   if (Serial.available() > 0) {
     char incomingChar = Serial.read();
-    switchLight(incomingChar);
+    switchLight(incomingChar,project);
   }  
 }
