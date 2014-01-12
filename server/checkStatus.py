@@ -39,9 +39,10 @@ else:
 time.sleep(4)
 
 def checkAll():
-        check(project_1, id_1, lastState_1)
+        check(project_1, id_1)
+	check(project_2, id_2)
 
-def check(project, id, lastState):
+def check(project, id):
         try:
                 job = j.get_job(project)
 
@@ -55,23 +56,38 @@ def check(project, id, lastState):
                 currentBuild = build.Build(current['url'], current['number'], job)
 
                 if currentBuild.is_running():
-                        light(BUILD, id, lastState)
+                        light(BUILD, id)
                 elif currentBuild.is_good():
-                        light(SUCCESS, id, lastState)
+                        light(SUCCESS, id)
                 else:
-                        light(FAIL, id, lastState)
+                        light(FAIL, id)
         except:
                 print "Server Side Error"
                 print sys.exc_info()[1]
                 #light(FAIL)
                 #TODO: Another led later for server side errors
 
-def light(state, id, lastState):
+def light(state, id):
+	global lastState_1
+	global lastState_2
+
+	if id == "1":
+		lastState = lastState_1
+	else:
+		lastState = lastState_2
+
         msg = id
         if state != lastState:
                 msg += state
+		print msg
                 output.write(msg)
-                lastState = state
+
+		if id == "1":
+			lastState_1 = state
+		else:
+			lastState_2 = state
+
+	#print msg, lastState_1, lastState_2
 
 while True:
         checkAll()

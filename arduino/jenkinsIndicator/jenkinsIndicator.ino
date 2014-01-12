@@ -35,8 +35,8 @@ void reset() {
   digitalWrite(ledRed2, LOW);
 }
   
-void setFail(int project) {
-  if (project == 1){
+void setFail(char project) {
+  if (project == '1'){
     digitalWrite(ledRed1, HIGH);
   } 
   else {
@@ -45,8 +45,8 @@ void setFail(int project) {
   build = false;
 }
 
-void setSuccess(int project) {
-  if (project == 1){
+void setSuccess(char project) {
+  if (project == '1'){
     digitalWrite(ledGreen1, HIGH);
   }
   else {
@@ -55,8 +55,7 @@ void setSuccess(int project) {
   build = false;
 }
 
-void setBuild() {
-  //digitalWrite(ledBuild, HIGH);   
+void setBuild() {   
   build = true;
 }
 
@@ -68,7 +67,7 @@ void blinkBuild(){
   
 }
 
-void switchLight(char incomingChar, int project) {
+void switchLight(char incomingChar, char project) {
   reset();
   
   if (incomingChar == 's') {
@@ -90,8 +89,11 @@ void loop() {
     blinkBuild();
   }
   
-  if (Serial.available() > 0) {
-    char incomingChar = Serial.read();
-    switchLight(incomingChar,project);
+  if (Serial.available() > 1) {
+    char project = Serial.read();
+    char state = Serial.read();
+    
+    //switchLight('b','1');
+    switchLight(state, project);
   }  
 }
