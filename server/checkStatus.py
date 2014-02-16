@@ -8,8 +8,7 @@ from jenkinsapi import build
 
 port = "/dev/ttyACM0"
 baudrate = 9600
-url = 'http://127.0.0.1:8090'
-#url = 'http://192.168.7.64:8080'
+url = 'http://192.168.1.20:8080'
 
 
 FAIL = "f"
@@ -17,7 +16,7 @@ BUILD = "b"
 SUCCESS = "s"
 frequency = 2
 
-project_1 = "test_1"
+project_1 = 'test_1'
 project_2 = "test_2"
 
 # each project has an identifier, to be sent using the serial link as well
